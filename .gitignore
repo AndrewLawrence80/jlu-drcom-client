@@ -1,3 +1,9 @@
+# Vscode directory
+.Vscode
+
+# Cmake build directory
+build
+
 # Prerequisites
 *.d
 
