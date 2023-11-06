@@ -104,7 +104,7 @@ LD=[上述toolchain/bin目录下的ld]
 # CC=gcc
 ```
 
-关于Openwrt下的编译参考[Openwrt官方文档](https://openwrt.org/docs/guide-developer/toolchain/crosscompile)
+更多关于Openwrt下的编译参考[Openwrt官方文档](https://openwrt.org/docs/guide-developer/toolchain/crosscompile)
 
 ### 保持在命令行运行
 
