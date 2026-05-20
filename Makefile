@@ -1,20 +1,31 @@
-CC=gcc
-CFLAGS=-I. -Wall -lpthread
-DEPS=config.h client.h encryption.h md5.h logger.h resend.h debug_utils
-OBJS=main.o client.o encryption.o md5.o logger.o resend.o debug_utils.o
-TARGET=drclient_jlu
+CC = gcc
+CFLAGS = -Iinclude -Wall
+LDFLAGS = -lpthread
+
+TARGET = build/bin/drclient_jlu
+
+SRCS = $(wildcard src/*.c)
+OBJS = $(SRCS:src/%.c=build/obj/%.o)
+DEPS = $(OBJS:build/obj/%.o=build/dep/%.d)
+
+all: $(TARGET)
 
 # object: dependence
 # $@: left side of `:`
 # $<: first parameter
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+build/obj/%.o: src/%.c | build/obj build/dep
+	$(CC) $(CFLAGS) -MMD -MF $(patsubst build/obj/%.o,build/dep/%.d,$@) -c $< -o $@
 
 # $^: right side of `:`
-$(TARGET): $(OBJS)
-	$(CC) -o $@ $^ $(CFLAGS)
+$(TARGET): $(OBJS) | build/bin
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+build/obj build/dep build/bin:
+	mkdir -p $@
+
+-include $(DEPS)
 
 .PHONY: clean
 
 clean:
-	rm $(TARGET) $(OBJS)
+	rm -rf build
